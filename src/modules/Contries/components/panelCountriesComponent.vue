@@ -19,14 +19,16 @@ export default {
   data() {
     return {
       countries: [],
-      search: '',
+      search: "",
       selectedCountry: null,
     };
   },
   computed: {
     filteredCountries() {
       if (this.search) {
-        return this.countries.filter(country => country.name.toLowerCase().includes(this.search.toLowerCase()));
+        return this.countries.filter((country) =>
+          country.name.toLowerCase().includes(this.search.toLowerCase())
+        );
       } else {
         return this.countries;
       }
@@ -61,7 +63,6 @@ export default {
   },
   methods: {
     getRandomCountries(countries, count) {
-      // Crear una copia de la lista de países para no modificar la original
       const tempCountries = [...countries];
       const selectedCountries = [];
 
@@ -97,7 +98,7 @@ export default {
           </div>
         </form>
       </div>
-      <div class="col-12 mt-5 row  justify-content-center">
+      <div class="col-12 mt-5 row justify-content-center">
         <div
           v-for="country in filteredCountries"
           :key="country.code"
@@ -106,24 +107,49 @@ export default {
           @click="selectCountry(country)"
         >
           <div class="card-body d-flex">
-            <img :src="'https://flagsapi.com/' + country.code + '/flat/64.png'">
+            <img
+              :src="'https://flagsapi.com/' + country.code + '/flat/64.png'"
+            />
             <div class="mx-3 d-flex flex-column justify-content-center">
-              <h5 class="card-title text-info ">{{ country.name }}</h5>
+              <h5 class="card-title text-info">{{ country.name }}</h5>
               <p>{{ country.continent.name }}</p>
             </div>
           </div>
         </div>
-        <div v-if="search && filteredCountries.length === 0" class="alert alert-warning" role="alert">
+        <div
+          v-if="search && filteredCountries.length === 0"
+          class="alert alert-warning"
+          role="alert"
+        >
           No se encontró ningún país con el nombre "{{ search }}".
         </div>
       </div>
     </div>
-    <div v-if="selectedCountry" class="modal" style="display: block;">
+    <div v-if="selectedCountry" class="modal" style="display: block">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">{{ selectedCountry.name }}</h5>
-            <button type="button" class="close" @click="selectedCountry = null">
+            <div class="d-flex ">
+              <img
+                :src="
+                  'https://flagsapi.com/' +
+                  selectedCountry.code +
+                  '/flat/64.png'
+                "
+                class="me-3"
+              />
+              <div class="d-flex flex-column">
+                <h5 class="modal-title">{{ selectedCountry.name }}</h5>
+              <p>{{ selectedCountry.continent.name }}</p>
+              </div>
+              
+            </div>
+
+            <button
+              type="button"
+              class="close btn btn-secondary"
+              @click="selectedCountry = null"
+            >
               <span>×</span>
             </button>
           </div>
@@ -133,7 +159,6 @@ export default {
             <p>Lenguaje: {{ selectedCountry.languages[0].name }}</p>
             <p>Población: {{ selectedCountry.population }}</p>
             <p>Moneda: {{ selectedCountry.currency }}</p>
-            <p>Región: {{ selectedCountry.region }}</p>
           </div>
         </div>
       </div>
@@ -141,11 +166,10 @@ export default {
   </div>
 </template>
 
-
 <style lang="scss" scoped>
-
-.card{
+.card {
   border-radius: 30px;
+  cursor: pointer;
 }
 .search {
   position: relative;
@@ -159,7 +183,7 @@ export default {
   transition: width 0.5s cubic-bezier(0.9, 0, 0.3, 0.9);
 }
 
-.text-info{
+.text-info {
   color: #0d89fd !important;
 }
 
