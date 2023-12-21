@@ -1,5 +1,10 @@
+// En tu archivo de configuración de Vue Router
 import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import panelCountriesComponentVue from '@/modules/Contries/components/panelCountriesComponent.vue'
+import CountryLayoutVue from '@/modules/Contries/layouts/CountryLayout.vue'
+import FirstView from '@/modules/Contries/components/firstView.vue'
+import SecondView from '@/modules/Contries/components/SecondView.vue'
 
 const routes = [
   {
@@ -8,13 +13,27 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
+    path: '/CountryApp',
+    name: 'countryApp',
+    component: CountryLayoutVue,
+    children: [
+      {
+        path: '',
+        name: 'countryAppDefault',
+        component: panelCountriesComponentVue 
+      },
+      {
+        path: 'firstview',
+        name: 'firstview',
+        component: FirstView
+      },
+      {
+        path: 'secondview',
+        name: 'secondview',
+        component: SecondView
+      }
+    ]
+  },
 ]
 
 const router = createRouter({
