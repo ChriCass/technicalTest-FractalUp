@@ -44,7 +44,7 @@
     </ul>
   </div>
   <div>
-    <div class="mt-5">
+    <div class="mt-5 d-flex justify-content-center w-100">
       <button
         class="d-lg-none btn mt-1 p-3 btn-secondary"
         type="button"
