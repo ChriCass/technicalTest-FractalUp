@@ -18,6 +18,7 @@ const apolloClient = new ApolloClient({
 export default {
   data() {
     return {
+      allCountries: [],
       countries: [],
       search: "",
       selectedCountry: null,
@@ -26,7 +27,7 @@ export default {
   computed: {
     filteredCountries() {
       if (this.search) {
-        return this.countries.filter((country) =>
+        return this.allCountries.filter((country) =>
           country.name.toLowerCase().includes(this.search.toLowerCase())
         );
       } else {
@@ -55,8 +56,8 @@ export default {
         `,
       });
 
-      const allCountries = response.data.countries;
-      this.countries = this.getRandomCountries(allCountries, 14);
+      this.allCountries = response.data.countries;
+      this.countries = this.getRandomCountries(this.allCountries, 9);
     } catch (error) {
       console.error("Error fetching countries:", error);
     }
@@ -84,7 +85,7 @@ export default {
 <template>
   <div class="container mt-5">
     <div class="row justify-content-center">
-      <div class="col-10">
+      <div class="col-8">
         <form action="" class="search d-flex flex-column">
           <span class="mx-3 text-seconary">Pais</span>
           <input
@@ -116,12 +117,14 @@ export default {
             </div>
           </div>
         </div>
-        <div
-          v-if="search && filteredCountries.length === 0"
-          class="alert alert-warning"
-          role="alert"
-        >
-          No se encontró ningún país con el nombre "{{ search }}".
+        <div class="col-10">
+          <div
+            v-if="search && filteredCountries.length === 0"
+            class="alert alert-warning"
+            role="alert"
+          >
+            No se encontró ningún país con el nombre "{{ search }}".
+          </div>
         </div>
       </div>
     </div>
@@ -129,7 +132,7 @@ export default {
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <div class="d-flex ">
+            <div class="d-flex">
               <img
                 :src="
                   'https://flagsapi.com/' +
@@ -140,9 +143,8 @@ export default {
               />
               <div class="d-flex flex-column">
                 <h5 class="modal-title">{{ selectedCountry.name }}</h5>
-              <p>{{ selectedCountry.continent.name }}</p>
+                <p>{{ selectedCountry.continent.name }}</p>
               </div>
-              
             </div>
 
             <button
