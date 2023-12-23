@@ -104,6 +104,9 @@ export default {
           v-for="country in filteredCountries"
           :key="country.code"
           class="card mx-3 shadow my-3"
+          :class="{
+            'bg-info': selectedCountry && selectedCountry.code === country.code,
+          }"
           style="width: 18rem"
           @click="selectCountry(country)"
         >
@@ -112,8 +115,24 @@ export default {
               :src="'https://flagsapi.com/' + country.code + '/flat/64.png'"
             />
             <div class="mx-3 d-flex flex-column justify-content-center">
-              <h5 class="card-title text-info">{{ country.name }}</h5>
-              <p>{{ country.continent.name }}</p>
+              <h5
+                class="card-title"
+                :class="{
+                  'text-light':
+                    selectedCountry && selectedCountry.code === country.code,
+                  'text-info':
+                    !selectedCountry || selectedCountry.code !== country.code,
+                }"
+              >
+                {{ country.name }}
+              </h5>
+              <p
+                class="text-light"
+                v-if="selectedCountry && selectedCountry.code === country.code"
+              >
+                {{ country.continent.name }}
+              </p>
+              <p v-else>{{ country.continent.name }}</p>
             </div>
           </div>
         </div>
@@ -142,7 +161,9 @@ export default {
                 class="me-3"
               />
               <div class="d-flex flex-column">
-                <h5 class="modal-title">{{ selectedCountry.name }}</h5>
+                <h5 class="modal-title text-info fw-bold">
+                  {{ selectedCountry.name }}
+                </h5>
                 <p>{{ selectedCountry.continent.name }}</p>
               </div>
             </div>
@@ -156,11 +177,26 @@ export default {
             </button>
           </div>
           <div class="modal-body">
-            <p>Continente: {{ selectedCountry.continent.name }}</p>
-            <p>Capital: {{ selectedCountry.capital }}</p>
-            <p>Lenguaje: {{ selectedCountry.languages[0].name }}</p>
-            <p>Población: {{ selectedCountry.population }}</p>
-            <p>Moneda: {{ selectedCountry.currency }}</p>
+            <p>
+              <span class="text-info fw-bold">Continente:</span>
+              {{ selectedCountry.continent.name }}
+            </p>
+            <p>
+              <span class="text-info fw-bold">Capital:</span>
+              {{ selectedCountry.capital }}
+            </p>
+            <p>
+              <span class="text-info fw-bold">Lenguaje:</span>
+              {{ selectedCountry.languages[0].name }}
+            </p>
+            <p>
+              <span class="text-info fw-bold">Población:</span>
+              {{ selectedCountry.population }}
+            </p>
+            <p>
+              <span class="text-info fw-bold">Moneda:</span>
+              {{ selectedCountry.currency }}
+            </p>
           </div>
         </div>
       </div>
@@ -187,6 +223,10 @@ export default {
 
 .text-info {
   color: #0d89fd !important;
+}
+
+.bg-info {
+  background-color: #0d89fd !important;
 }
 
 .search_input {

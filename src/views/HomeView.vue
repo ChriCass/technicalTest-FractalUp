@@ -12,13 +12,13 @@ export default{
 
 
 <template>
-  <div class="d-flex flex-column align-items-center justify-content-center bg vh-100">
+  <div class=" d-flex flex-column align-items-center justify-content-center bg vh-100">
     <div class="text-center">
       <img alt="Vue logo" src="@/assets/img/logo.png" />
     </div>
 
-    <div>
-      <h1 class="text-light">Welcome to my technical challenge for FractalUp!</h1>
+    <div class="">
+      <h1 class="text-light mx-4 text-center">Welcome to my technical challenge for FractalUp!</h1>
     </div>
     <div class="d-flex">
       <div class="mt-3">
