@@ -118,21 +118,21 @@ export default {
         <div
           v-for="country in filteredCountries"
           :key="country.code"
-          class="card mx-3 shadow my-3"
+          class="card p-0 mx-3 shadow my-3"
           :class="{
             'bg-info': selectedCountry && selectedCountry.code === country.code,
           }"
-          style="width: 18rem"
+          style="width: 20rem"
           @click="selectCountry(country)"
         >
-          <img class="card-img-top" :src="country.cityImage" />
+          <img class="card-img-top img-fluid" :src="country.cityImage" />
           <div class="card-body d-flex">
             <img
               :src="'https://flagsapi.com/' + country.code + '/flat/64.png'"
             />
             <div class="mx-3 d-flex flex-column justify-content-center">
               <h5
-                class="card-title"
+                class="card-title m-0 fw-bold"
                 :class="{
                   'text-light':
                     selectedCountry && selectedCountry.code === country.code,
@@ -143,7 +143,7 @@ export default {
                 {{ country.name }}
               </h5>
               <p
-                class="text-light"
+                class="text-light fw-bold"
                 v-if="selectedCountry && selectedCountry.code === country.code"
               >
                 {{ country.continent.name }}
@@ -167,7 +167,22 @@ export default {
     <div v-if="selectedCountry" class="modal" style="display: block">
       <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header">
+          <div class="d-flex justify-content-center">
+            <div class="d-flex justify-content-center rounded">
+              <img class="img-my-modal" :src="selectedCountry.cityImage" />
+              <div>
+                <button
+                  type="button"
+                  class="close btn btn-secondary my-4 mx-4"
+                  @click="selectedCountry = null"
+                >
+                  <span>×</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-header mx-5">
             <div class="d-flex">
               <img
                 :src="
@@ -184,16 +199,8 @@ export default {
                 <p>{{ selectedCountry.continent.name }}</p>
               </div>
             </div>
-
-            <button
-              type="button"
-              class="close btn btn-secondary"
-              @click="selectedCountry = null"
-            >
-              <span>×</span>
-            </button>
           </div>
-          <div class="modal-body">
+          <div class="modal-body mx-5">
             <p>
               <span class="text-info fw-bold">Continente:</span>
               {{ selectedCountry.continent.name }}
@@ -222,6 +229,29 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+.img-my-modal {
+  max-width: 80%;
+  width: 400px;
+  height: auto; /* Cambia esto a auto para mantener la proporción de la imagen */
+  padding: 20px;
+  border-radius: 30px;
+  display: block; /* Asegura que la imagen se muestre como un bloque */
+  margin: auto; /* Centra la imagen */
+}
+
+.close {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+}
+
+.card-img-top {
+  height: 200px; /* Define la altura */
+  object-fit: cover;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  padding: 0;
+}
 .card {
   border-radius: 30px;
   cursor: pointer;

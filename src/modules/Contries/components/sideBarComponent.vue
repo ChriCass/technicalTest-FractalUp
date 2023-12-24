@@ -1,6 +1,6 @@
 <template>
   <div
-    class="d-none d-lg-flex flex-column flex-shrink-0 p-3 bg-secondary vh-100"
+    class="d-none position-fixed d-lg-flex flex-column flex-shrink-0 p-3 bg-secondary vh-100"
     style="width: 280px"
   >
     <router-link
