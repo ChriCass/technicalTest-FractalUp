@@ -22,7 +22,7 @@ export default {
       countries: [],
       search: "",
       selectedCountry: null,
-      cityImage: null, // Declare the cityImage property here
+      cityImage: null,
     };
   },
 
@@ -61,7 +61,6 @@ export default {
       this.allCountries = response.data.countries;
       this.countries = this.getRandomCountries(this.allCountries, 9);
 
-      // Fetch city images for the selected countries
       for (let i = 0; i < this.countries.length; i++) {
         const country = this.countries[i];
         const cityImageResponse = await fetch(
@@ -71,7 +70,7 @@ export default {
         this.countries[i] = {
           ...country,
           cityImage: cityImageData.results[0].urls.small,
-        }; // Create a copy of the country and add the cityImage property
+        };
       }
     } catch (error) {
       console.error("Error fetching countries:", error);
@@ -164,7 +163,7 @@ export default {
         </div>
       </div>
     </div>
-    <div v-if="selectedCountry" class="modal" style="display: block">
+    <div v-if="selectedCountry" class="modal " style="display: block">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="d-flex justify-content-center">
@@ -229,6 +228,10 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+
+.modal-content{
+  border: none !important;
+}
 .img-my-modal {
   max-width: 80%;
   width: 400px;
