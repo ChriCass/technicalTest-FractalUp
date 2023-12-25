@@ -229,7 +229,7 @@ export default {
       class="modal d-flex align-items-center justify-content-center"
       style="display: block"
     >
-      <div class="modal-dialog">
+      <div class="modal-dialog country-modal-dialog">
         <div class="modal-content">
           <div class="d-flex justify-content-center">
             <div class="d-flex justify-content-center rounded">
@@ -294,7 +294,7 @@ export default {
 
 <style lang="scss" scoped>
 @media (min-width: 992px) {
-  .modal-dialog {
+  .country-modal-dialog {
     position: fixed;
     bottom: 0;
     right: 0;
