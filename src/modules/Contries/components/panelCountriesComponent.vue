@@ -23,6 +23,8 @@ export default {
       search: "",
       selectedCountry: null,
       cityImage: null,
+      continents: [], // Agrega esta línea
+      showContinentModal: false, // Agrega esta línea
     };
   },
 
@@ -72,6 +74,20 @@ export default {
           cityImage: cityImageData.results[0].urls.small,
         };
       }
+
+      // Agrega este bloque de código para obtener los continentes
+      const continentResponse = await apolloClient.query({
+        query: gql`
+          {
+            continents {
+              code
+              name
+            }
+          }
+        `,
+      });
+
+      this.continents = continentResponse.data.continents;
     } catch (error) {
       console.error("Error fetching countries:", error);
     }
@@ -92,6 +108,13 @@ export default {
     selectCountry(country) {
       this.selectedCountry = country;
     },
+
+    filterByContinent(continent) {
+      this.countries = this.allCountries.filter(
+        (country) => country.continent.name === continent.name
+      );
+      this.showContinentModal = false;
+    },
   },
 };
 </script>
@@ -104,6 +127,7 @@ export default {
           <span class="mx-3 text-seconary">Pais</span>
           <input
             type="search"
+            @click="showContinentModal = true"
             placeholder="Escribe el pais que deseas ver"
             class="search_input"
             v-model="search"
@@ -112,6 +136,43 @@ export default {
             <i class="ri-search-2-line search_icon"></i>
           </div>
         </form>
+        <div
+          v-if="showContinentModal"
+          class="modal d-flex align-items-center justify-content-center"
+          style="display: block"
+        >
+          <div
+            class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+          >
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Selecciona un continente</h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  @click="showContinentModal = false"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <div
+                  class="card"
+                  v-for="continent in continents"
+                  :key="continent.code"
+                >
+                  <div class="card-body">
+                    <h5 class="card-title">{{ continent.name }}</h5>
+                    <button
+                      class="btn btn-primary"
+                      @click="filterByContinent(continent)"
+                    >
+                      Seleccionar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="col-12 mt-5 row justify-content-center">
         <div
@@ -163,7 +224,11 @@ export default {
         </div>
       </div>
     </div>
-    <div v-if="selectedCountry" class="modal " style="display: block">
+    <div
+      v-if="selectedCountry"
+      class="modal d-flex align-items-center justify-content-center"
+      style="display: block"
+    >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="d-flex justify-content-center">
@@ -172,7 +237,7 @@ export default {
               <div>
                 <button
                   type="button"
-                  class="close btn btn-secondary my-4 mx-4"
+                  class="close btn btn-close my-4 mx-4"
                   @click="selectedCountry = null"
                 >
                   <span>×</span>
@@ -228,23 +293,40 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+@media (min-width: 992px) {
+  .modal-dialog {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+    width: 400px;
+    max-height: calc(100% - 1rem);
+  }
+}
 
-.modal-content{
+.modal-header {
+  border-bottom: none;
+}
+.modal-content {
   border: none !important;
+  border-radius: 0%;
 }
 .img-my-modal {
   max-width: 80%;
   width: 400px;
-  height: auto; /* Cambia esto a auto para mantener la proporción de la imagen */
+  max-height: 300px; /* Define una altura máxima */
+  height: auto; /* Mantén esto en auto para mantener la proporción de la imagen */
   padding: 20px;
   border-radius: 30px;
   display: block; /* Asegura que la imagen se muestre como un bloque */
   margin: auto; /* Centra la imagen */
+  object-fit: cover; /* Asegura que la imagen cubra el espacio disponible */
 }
 
 .close {
   position: absolute;
-  right: 15px;
+  right: -8px;
   top: 10px;
 }
 
