@@ -23,8 +23,8 @@ export default {
       search: "",
       selectedCountry: null,
       cityImage: null,
-      continents: [], // Agrega esta línea
-      showContinentModal: false, // Agrega esta línea
+      continents: [],
+      showContinentModal: false,
     };
   },
 
@@ -138,7 +138,7 @@ export default {
         </form>
         <div
           v-if="showContinentModal"
-          class="modal d-flex align-items-center justify-content-center"
+          class="modal"
           style="display: block"
         >
           <div
@@ -146,12 +146,9 @@ export default {
           >
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">Selecciona un continente</h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  @click="showContinentModal = false"
-                ></button>
+                <h5 class="modal-title text-secondary">Filtrar por continente</h5>
+                <h5 @click="showContinentModal = false" class="modal-title  text-info">Limpiar</h5>
+             
               </div>
               <div class="modal-body">
                 <div
@@ -240,7 +237,7 @@ export default {
                   class="close btn btn-close my-4 mx-4"
                   @click="selectedCountry = null"
                 >
-                  <span>×</span>
+                  
                 </button>
               </div>
             </div>
@@ -315,13 +312,13 @@ export default {
 .img-my-modal {
   max-width: 80%;
   width: 400px;
-  max-height: 300px; /* Define una altura máxima */
-  height: auto; /* Mantén esto en auto para mantener la proporción de la imagen */
+  max-height: 300px;
+  height: auto;
   padding: 20px;
   border-radius: 30px;
-  display: block; /* Asegura que la imagen se muestre como un bloque */
-  margin: auto; /* Centra la imagen */
-  object-fit: cover; /* Asegura que la imagen cubra el espacio disponible */
+  display: block;
+  margin: auto;
+  object-fit: cover;
 }
 
 .close {
@@ -331,7 +328,7 @@ export default {
 }
 
 .card-img-top {
-  height: 200px; /* Define la altura */
+  height: 200px;
   object-fit: cover;
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
